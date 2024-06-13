@@ -48,6 +48,10 @@
                     <groupId>com.vaadin</groupId>
                     <artifactId>hilla-dev</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>flow-react</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -109,9 +113,43 @@
                                 <phase>compile</phase>
                             </execution>
                         </executions>
+                        <configuration>
+                            <!--  Disables "react router", which brings no
+                            features for flow app, but grows the front-end bundle-->
+                            <reactEnable>false</reactEnable>
+                            <!-- Make sure custom bundle is created, otherwise
+                                 the default prod bundle might containt various React related features.
+                            -->
+                            <forceProductionBuild>true</forceProductionBuild>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
+            <dependencies>
+                <dependency>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-core</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>com.vaadin</groupId>
+                            <artifactId>copilot</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.vaadin</groupId>
+                            <artifactId>hilla-dev</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.vaadin</groupId>
+                            <artifactId>flow-react</artifactId>
+                        </exclusion>
+                        <!-- This as well in production -->
+                        <exclusion>
+                            <groupId>com.vaadin</groupId>
+                            <artifactId>vaadin-dev</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>
